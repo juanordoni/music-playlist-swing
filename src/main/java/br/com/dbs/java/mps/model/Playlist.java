@@ -1,16 +1,39 @@
 package br.com.dbs.java.mps.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public class Playlist {
-
+@Entity
+public class Playlist implements Serializable{
+     private static final long serialVersionUID = -4975429807484390542L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(length = 255)
     private String nome;
+    
     private Integer quantidadeDeExecucoes;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataDaUltimaExecucao;
+    @Temporal(TemporalType.DATE)
     private Date dataDaCriacao;
+    
     private Integer duracaoTotal;
+    
+    @ManyToMany
+    @JoinTable(name = "playlist_musica")
     private final List<Musica> musicas = new ArrayList<>();
 
     public void adicionaMusica(Musica musica) {
@@ -65,5 +88,6 @@ public class Playlist {
     public Integer getDuracaoTotal() {
         return duracaoTotal;
     }
+    
 
 }
